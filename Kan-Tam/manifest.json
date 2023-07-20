@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Kannada to Tamil",
+  "version": "1.0",
+  "action": {
+    "default_popup": "popup.html"
+  },
+    "background": {
+    "service_worker": "js/background.js",
+     "type": "module"
+  },
+  "icons": {
+    "16": "images/icon.png",
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  },
+  "permissions": ["storage", "declarativeContent", "activeTab", "scripting", "tabs", "webNavigation"],
+  "content_scripts": [
+  {
+    "matches": ["<all_urls>"],
+    "js": ["js/contentScript.js"]
+  }
+]
+}
+

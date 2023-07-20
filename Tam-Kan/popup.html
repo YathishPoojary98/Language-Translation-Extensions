@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Extension Options</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+
+    h2 {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      color: #darkgray;
+    }
+
+    .slider-container {
+      left : 8px;
+  width: 60px;
+  height: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+    .slider-track {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #ccc;
+      border-radius: 10px;
+    }
+
+    .slider-thumb {
+      position: absolute;
+      width: 16px;
+      height: 18px;
+      background-color: #fff;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.2s;
+    }
+
+    .slider-container.checked .slider-track {
+      background-color: #349beb;
+    }
+
+    .slider-container.checked .slider-thumb {
+      transform: translateX(40px);
+    }
+  </style>
+  <script src="js/popup.js"></script>
+</head>
+<body>
+  <h2 style="text-align: center;">Tamil to Kannada -- </h2> <h3 style="text-align: center;">Translate </h3>
+  <div class="slider-container" id="sliderContainer" style="align-items: center;">
+    <div class="slider-track"></div>
+    <div class="slider-thumb"></div>
+  </div>
+  <div id="translatedOutput"></div>
+</body>
+</html>
