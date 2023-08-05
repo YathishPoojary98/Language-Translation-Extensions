@@ -44,9 +44,9 @@ function getParagraphText() {
           // Detect language
           const detectedLanguage = detectLanguage(textContent);
 
-          if (detectedLanguage === 'Kannada') {
+          if (detectedLanguage === 'Tamil') {
             // Make HTTP POST request to the server with the text content and language
-            fetch('https://mitcse.manipal.edu/translate_kn_ta', {
+            fetch('https://mitcse.manipal.edu/translate_tam', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ function getParagraphText() {
               if (textContent !== '') {
                 const detectedLanguage = detectLanguage(textContent);
 
-                if (detectedLanguage === 'Kannada') {
+                if (detectedLanguage === 'Tamil') {
                   const translatedLines = textContent.split('\n').map(line => {
                     // Perform translation for each line
                     return fetchTranslation(line, detectedLanguage);
@@ -159,7 +159,7 @@ function getParagraphText() {
           if (textContent !== '') {
             const detectedLanguage = detectLanguage(textContent);
 
-            if (detectedLanguage === 'Kannada') {
+            if (detectedLanguage === 'Tamil') {
               const translatedLines = textContent.split('\n').map(line => {
                 // Perform translation for each line
                 return fetchTranslation(line, detectedLanguage);
@@ -199,7 +199,7 @@ function getParagraphText() {
 
         const detectedLanguage = detectLanguage(textContent);
 
-        if (detectedLanguage === 'Kannada') {
+        if (detectedLanguage === 'Tamil') {
           const translatedLines = textContent.split('\n').map(line => {
             // Perform translation for each line
             return fetchTranslation(line, detectedLanguage);
@@ -261,11 +261,11 @@ function copyElementStyles(sourceElement, targetElement) {
 
 function fetchTranslation(text, language) {
   // Check if the detected language is English
-  if (language === 'Kannada') {
+  if (language === 'Tamil') {
     // Make HTTP POST request to the server with the text content and language
     console.log("fetchTranslation called");
     console.log("Text: " + text + ", Lang: " + language);
-    return fetch('https://mitcse.manipal.edu/translate_kn_ta', {
+    return fetch('https://mitcse.manipal.edu/translate_tam', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
