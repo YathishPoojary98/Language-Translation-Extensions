@@ -15,7 +15,7 @@ function getParagraphText() {
   const elementSelectors = [
     'body p', 'body ol li', 'body h1', 'body h2', 'body h3', 'body h4', 'body h5', 'body h6',
     'body ul:not(.gallery) li:not(.nav-item)', 'body option','body label','body a:not(:has(p,li,h1,h2,h3,h4,h5,h6,ul,ol,a,div))',
-    '.dropdown-menu li a', 'body div:not(:has(p,li,h1,h2,h3,h4,h5,h6,ul,ol,a,div,select,textarea))'
+    '.dropdown-menu li a', 'body div:not(:has(p,li,h1,h2,h3,h4,h5,h6,ul,ol,a,div,select,textarea)):not([class^="navbox"])'
   ];
   const selectorString = elementSelectors.join(', ');
 
@@ -43,10 +43,10 @@ function getParagraphText() {
         if (textContent !== '') {
           // Detect language
           const detectedLanguage = detectLanguage(textContent);
-          console.log("detectedLanguage: "+detectedLanguage);
+
           if (detectedLanguage === 'Hindi') {
             // Make HTTP POST request to the server with the text content and language
-            fetch('http://172.16.58.36:5000/translate_hin', {
+            fetch('https://mitcse.manipal.edu/translate_hin', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -80,6 +80,41 @@ function getParagraphText() {
     } else if (anchorTags.length > 0) {
       // Handle anchor tags
       for (const anchorTag of anchorTags) {
+        const parentTag = anchorTag.parentElement;
+    // Check if the parent node is a <p> tag
+    console.log("parentTag : "+parentTag.tagName.toLowerCase()+"\n");
+    if (parentTag && parentTag.tagName.toLowerCase() === 'p') {
+      // If the anchor tag is enclosed within a <p> tag, translate the entire content of the paragraph
+      const textContent = getTextContent(parentTag);
+      console.log("Text content returned : " + textContent.split("\n"));
+      if (textContent !== '') {
+        const translatedLines = textContent.split('\n').map(line => {
+          // Detect language and perform translation for each line
+          const detectedLanguage = detectLanguage(line);
+          return fetchTranslation(line, detectedLanguage);
+        });
+        // Make HTTP POST request to the server with the text content and language
+        Promise.all(translatedLines)
+          .then(translatedTexts => {
+            console.log("Translated Texts : " + translatedTexts);
+            // Create a new span element with the translated text
+            const newSpan = document.createElement('span');
+            newSpan.innerHTML = translatedTexts.join('<br>');
+            // Copy the styling of the original span
+            newSpan.style.color = parentTag.style.color;
+
+            // Replace the innerHTML of the paragraph with the new span element
+            parentTag.innerHTML = '';
+            parentTag.appendChild(newSpan);
+
+            // Set the 'data-translated' attribute to indicate translation
+            parentTag.setAttribute('data-translated', 'true');
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      }
+    }
         const divs = anchorTag.getElementsByTagName('div');
         if (divs.length > 0) {
           // Handle divs within anchor tags
@@ -230,7 +265,7 @@ function fetchTranslation(text, language) {
     // Make HTTP POST request to the server with the text content and language
     console.log("fetchTranslation called");
     console.log("Text: " + text + ", Lang: " + language);
-    return fetch('http://172.16.58.36:5000/translate_hin', {
+    return fetch('https://mitcse.manipal.edu/translate_hin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
